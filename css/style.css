@@ -53,28 +53,28 @@ body {
 
 @-webkit-keyframes slide {
   from {
-    background-position: center 0; }
+    background-position: center -600px; }
 
   to {
-    background-position: center -600px; } }
+    background-position: center 0; } }
 
 @-moz-keyframes slide {
   from {
-    background-position: center 0; }
+    background-position: center -600px; }
 
   to {
-    background-position: center -600px; } }
+    background-position: center 0; } }
 
 @-o-keyframes slide {
   from {
-    background-position: center 0; }
+    background-position: center -600px; }
 
   to {
-    background-position: center -600px; } }
+    background-position: center 0; } }
 
 @keyframes slide {
   from {
-    background-position: center 0; }
+    background-position: center -600px; }
 
   to {
-    background-position: center -600px; } }
+    background-position: center 0; } }
