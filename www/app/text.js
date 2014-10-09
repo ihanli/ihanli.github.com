@@ -65,6 +65,16 @@ define(
 			return letters.length ? letters[ index ] : null;
 		};
 
+		Text.prototype.move = function( delta ) {
+			var i,
+				len = letters.length;
+
+			for (i = 0; i < len; i++) {
+				letters[ i ].translate( delta );
+				_explosions[ i ].translate( delta );
+			}
+		};
+
 		return Text;
 	}
 );

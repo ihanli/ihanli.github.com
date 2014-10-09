@@ -104,6 +104,7 @@ define(
 
 			for (i = 0; i < len; i++) {
 				asteroids[ i ].rotate();
+				asteroids[ i ].move();
 			}
 
 			for (i = 0; i <  ship.shots().length; i++) {

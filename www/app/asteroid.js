@@ -19,6 +19,8 @@ define(
 
 		var _explosion;
 
+		var _movement;
+
 		var Asteroid = function( x, y, text ) {
 			if (!( this instanceof Asteroid )) {
             	throw new TypeError( "Asteroid constructor can't be called as a function." );
@@ -42,9 +44,14 @@ define(
 			_text = new Text( x - text.length * Text.SPACING / 2, corrected_y + Asteroid.scaled_height() / 2 + 14, text );
 			_explosion = Explosion.add( _position );
 			_explosion.scale( 1.5 );
+
+			_movement = new paper.Point( 0, Asteroid.VELOCITY );
+			_movement.angle += Math.floor( Math.random() * 21 - 10 );
 		};
 
 		Asteroid.SIZE = new paper.Size( 88, 80 );
+
+		Asteroid.VELOCITY = 3;
 
 		Asteroid.scaled_width = function() {
 			return Asteroid.SIZE.width * _scale;
@@ -69,6 +76,12 @@ define(
 
 		Asteroid.prototype.text = function() {
 			return _text;
+		};
+
+		Asteroid.prototype.move = function() {
+			_group.translate( _movement );
+			_explosion.translate( _movement );
+			_text.move( _movement );
 		};
 
 		return Asteroid;
