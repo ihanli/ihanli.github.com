@@ -55,11 +55,15 @@ define(
 		};
 
 		var shoot = function( event ) {
-			var letter = target.text().letter( ship.shots().length );
+			var letter;
 
-			if (letter.content === event.key) {
-				ship.rotate( -1 * ship.directed_angle( letter.position ) );
-				ship.shoot();
+			if (target) {
+				letter = target.text().letter( ship.shots().length );
+
+				if (letter.content === event.key) {
+					ship.rotate( -1 * ship.directed_angle( letter.position ) );
+					ship.shoot();
+				}
 			}
 
 			released = true;
