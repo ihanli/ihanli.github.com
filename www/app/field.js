@@ -34,7 +34,7 @@ define(
 			return ( ( da < db ) ? -1 : ( ( da > db ) ? 1 : 0 ) );
 		};
 
-		var rotate_ship = function( event ) {
+		var set_target = function( event ) {
 			if (released) {
 				var i, len;
 
@@ -96,7 +96,7 @@ define(
 			) );
 
 			asteroids.sort( sort_by_distance );
-			tool.onKeyDown = rotate_ship;
+			tool.onKeyDown = set_target;
 			tool.onKeyUp = shoot;
 		};
 
