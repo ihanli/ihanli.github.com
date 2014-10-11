@@ -5,7 +5,7 @@ define(
 	function( paper ) {
 		'use strict';
 
-		var _scale = 0.4;
+		var _scale = 6;
 
 		var Explosion = function() {
 			if (!( this instanceof Explosion )) {

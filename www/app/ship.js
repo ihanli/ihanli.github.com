@@ -6,75 +6,84 @@ define(
 	function( paper, Shot ) {
 		'use strict';
 
-		var _scale = 0.3;
+		var _scale = 3;
 
 		var y_axis = new paper.Point( 0, 1 );
-
-		var group;
-
-		var _position;
-
-		var mask;
 
 		var _prev_rotation = 0;
 
 		var _shot;
 
-		var Ship = function( x, y ) {
+		var Ship = function( callback ) {
 			if (!( this instanceof Ship )) {
             	throw new TypeError( "Ship constructor can't be called as a function." );
         	}
 
-			var sprite = new paper.Raster( {
-				source: '/images/sheet.png',
-				position: [ 368, 220 ]
-			} );
+        	this.group = new paper.Group();
 
-			mask = paper.Path.Rectangle( { size: Ship.SIZE } );
+			var that = this,
+				sprite = new paper.Raster( {
+					source: '/images/sheet.png',
+					position: [ 368, 220 ],
+					opacity: 0
+				} );
 
-			_position = new paper.Point( x, Ship.scaled_height() / 2 + y );
-			group = new paper.Group( mask, sprite );
-			group.clipped = true;
-			group.bounds.size = Ship.SIZE;
-			group.scale( _scale );
-			group.rotate( 180 );
-			group.position = _position;
+			sprite.onLoad = function() {
+				var mask = paper.Path.Rectangle( { size: Ship.SIZE } );
+
+				this.opacity = 1;
+
+				that.group.addChild( mask );
+				that.group.addChild( sprite );
+				that.group.clipped = true;
+				that.group.bounds.size = Ship.SIZE;
+				that.group.scale( _scale );
+				that.group.rotate( 180 );
+
+				if (callback !== undefined && typeof callback === 'function') {
+					callback();
+				}
+			};
 
 			_shot = new Shot();
 		};
 
 		Ship.SIZE = new paper.Size( 102, 85 );
 
-		Ship.scaled_width = function() {
-			return Ship.SIZE.width * _scale;
+		Ship.prototype.width = function() {
+			return this.group.children[0].bounds.width;
 		};
 
-		Ship.scaled_height = function() {
-			return Ship.SIZE.height * _scale;
+		Ship.prototype.height = function() {
+			return this.group.children[0].bounds.height;
 		};
 
 		Ship.prototype.distance = function( asteroid ) {
-			return _position.getDistance( asteroid.position() );
+			return this.position().getDistance( asteroid.position() );
 		};
 
-		Ship.prototype.position = function() {
-			return _position;
+		Ship.prototype.position = function( pos ) {
+			if (pos !== undefined && pos) {
+				this.group.position = pos;
+			};
+
+			return this.group.children[0].position;
 		};
 
 		Ship.prototype.directed_angle = function( point ) {
-			return y_axis.getDirectedAngle( new paper.Point( point.x - _position.x, _position.y - point.y ) );
+			return y_axis.getDirectedAngle( new paper.Point( point.x - this.position().x, this.position().y - point.y ) );
 		};
 
 		Ship.prototype.rotate = function( angle ) {
-			group.rotate( angle - _prev_rotation, mask.position );
+			this.group.rotate( angle - _prev_rotation, this.position() );
 			_prev_rotation = angle;
 		};
 
 		Ship.prototype.shoot = function() {
 			_shot.add(
-				new paper.Point( _position.x, _position.y - Shot.scaled_height() - 5 ),
+				new paper.Point( this.position().x - 120, this.position().y + 2 * _shot.height() + 5 ),
 				_prev_rotation,
-				mask.position
+				this.position()
 			);
 		};
 

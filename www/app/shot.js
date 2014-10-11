@@ -5,36 +5,48 @@ define(
 	function( paper ) {
 		'use strict';
 
-		var _scale = 0.4;
-
-		var _movements = [];
+		var _scale = 4;
 
 		var _shots = [];
 
-		var _symbol;
+		var _movements = [];
 
 		var Shot = function() {
 			if (!( this instanceof Shot )) {
             	throw new TypeError( "Shot constructor can't be called as a function." );
         	}
 
-        	var group,
+        	this._symbol;
+        	this._width;
+        	this._height;
+
+        	var that = this,
+        		group = new paper.Group(),
         		mask = paper.Path.Rectangle( { size: Shot.SIZE } ),
 	        	sprite = new paper.Raster( {
 					source: '/images/sheet.png',
-					position: [ -346, 282 ]
+					position: [ -346, 282 ],
+					opacity: 0
 				} );
 
-			group = new paper.Group( mask, sprite );
-			group.clipped = true;
-			group.bounds.size = Shot.SIZE;
-			group.scale( _scale );
+			sprite.onLoad = function() {
+				this.opacity = 1;
 
-			_symbol = new paper.Symbol( group );
-			group.remove();
+				group.addChild( mask );
+				group.addChild( sprite );
+				group.clipped = true;
+				group.bounds.size = Shot.SIZE;
+				group.scale( _scale );
+
+				that._width = group.children[0].bounds.width;
+				that._height = group.children[0].bounds.height;
+
+				that._symbol = new paper.Symbol( group );
+				group.remove();
+			};
 		};
 
-		Shot.SIZE = new paper.Size( 10, 54 );
+		Shot.SIZE = new paper.Size( 88, 80 );
 
 		Shot.VELOCITY = 20;
 
@@ -46,12 +58,20 @@ define(
 			return Shot.SIZE.height * _scale;
 		};
 
+		Shot.prototype.width = function() {
+			return this._width;
+		};
+
+		Shot.prototype.height = function() {
+			return this._height;
+		};
+
 		Shot.prototype.shots = function() {
 			return _shots;
 		};
 
 		Shot.prototype.add = function( position, rotation, center ) {
-			var shot = _symbol.place( position ),
+			var shot = this._symbol.place( position ),
 				y_axis = new paper.Point( 0, Shot.VELOCITY );
 
 			shot.rotate( rotation, center );

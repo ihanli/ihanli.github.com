@@ -27,7 +27,7 @@ define(
 				} );
 
 				letters.push( letter );
-				_explosions.push( Explosion.add( letter.position ) );
+				_explosions.push( Explosion.add( new paper.Point( letter.position.x - 25, letter.position.y - 47 ) ) );
 			}
 		};
 

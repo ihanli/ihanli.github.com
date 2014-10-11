@@ -84,17 +84,21 @@ define(
 				strokeWidth: stroke_width
 			} );
 
-			ship = new Ship(
-				x + ( width - Ship.scaled_width() ) / 2 + 2 * stroke_width,
-				y + height - Ship.scaled_height() - 3 * stroke_width
-			);
+			ship = new Ship( function() {
+				ship.position( new paper.Point(
+					x - 77 + ( width - ship.width() ) / 2 - stroke_width,
+					y - 28 + height - 1.5 * ship.height() - 2 * stroke_width
+				) );
+			} );
 
-			asteroids.push( new Asteroid(
-				x + width / 2 - stroke_width,
-				y + 2 * stroke_width,
-				'paperjs'
-			) );
+			var asteroid = new Asteroid( function() {
+				asteroid.position( new paper.Point(
+					x + ( width - asteroid.width() ) / 2,
+					y - 55 + 3 * stroke_width
+				) );
+			}, 'paperjs' );
 
+			asteroids.push( asteroid );
 			asteroids.sort( sort_by_distance );
 			tool.onKeyDown = set_target;
 			tool.onKeyUp = shoot;
