@@ -70,6 +70,14 @@ define(
 			return _shots;
 		};
 
+		Shot.prototype.position = function( index, pos ) {
+			if (pos !== undefined && pos) {
+				_shots[ index ].position = pos;
+			};
+
+			return _shots[ index ].position;
+		};
+
 		Shot.prototype.add = function( position, rotation, center ) {
 			var shot = this._symbol.place( position ),
 				y_axis = new paper.Point( 0, Shot.VELOCITY );

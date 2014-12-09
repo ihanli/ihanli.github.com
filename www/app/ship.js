@@ -91,6 +91,10 @@ define(
 			_shot.move( index );
 		};
 
+		Ship.prototype.move_shot_to = function( index, pos ) {
+			return _shot.position( index, pos );
+		};
+
 		Ship.prototype.shots = function() {
 			return _shot.shots();
 		};
@@ -107,6 +111,10 @@ define(
 
 		Ship.prototype.next_step = function( index ) {
 			return _shot.shots()[ index ].position.add( _shot.movement( index ) );
+		};
+
+		Ship.prototype.shot_movement = function( index ) {
+			return _shot.movement( index );
 		};
 
 		return Ship;

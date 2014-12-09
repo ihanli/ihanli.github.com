@@ -55,13 +55,32 @@ define(
 		};
 
 		var shoot = function( event ) {
-			var letter;
+			var letter,
+				time,
+				v;
 
 			if (target) {
 				letter = target.text().letter( ship.shots().length );
 
 				if (letter.content === event.key) {
-					ship.rotate( -1 * ship.directed_angle( letter.position ) );
+					var dp = letter.position.subtract( ship.position() ),
+						cosinus = Math.cos( ( target.movement().angle - 90 ) * Math.PI / 180 ),
+						d2v = Math.pow( Shot.VELOCITY, 2 ) - Math.pow( Asteroid.VELOCITY, 2 ),
+						a = -2 * dp.length * Asteroid.VELOCITY * cosinus,
+						divisor = 2 * d2v,
+						sqrt = Math.sqrt( Math.pow( 2 * dp.length * Asteroid.VELOCITY * cosinus, 2 ) + 4 * Math.pow( dp.length, 2 ) * d2v ),
+						t = ( a + sqrt ) / divisor,
+						t2 = ( a - sqrt ) / divisor;
+
+					// Take the lowest positive value
+					if (t < 0) {
+						t = t2;
+					}
+					else if (t > 0 && t2 > 0) {
+						t = Math.min( t, t2 );
+					}
+
+					ship.rotate( -1 * ship.directed_angle( letter.position.add( target.movement().multiply( t ) ) ) );
 					ship.shoot();
 				}
 			}
@@ -119,8 +138,7 @@ define(
 				next_pos = ship.next_step( i );
 
 				if (next_pos.y < target.text().letter_position().y + shifted_origin.y) {
-					ship.shot( i ).position.x = target.text().letter_position().x - shifted_origin.x;
-					ship.shot( i ).position.y = target.text().letter_position().y + shifted_origin.y - ship.shot( i ).bounds.height / 2;
+					ship.move_shot_to( i, target.text().letter_position() );
 				}
 
 				test_result = ship.shot( i ).hitTest( new paper.Point(
