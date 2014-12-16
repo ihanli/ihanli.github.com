@@ -93,15 +93,14 @@ define(
             	throw new TypeError( "Field constructor can't be called as a function." );
         	}
 
-			/*
-			 * @type {Path.Rectangle}
-			 */
-			var r = new paper.Path.Rectangle( {
-				point: [ x, Math.floor( y + stroke_width / 2 ) ],
-				size: [ width, height - stroke_width ],
-				strokeColor: 'white',
-				strokeWidth: stroke_width
-			} );
+			var i,
+				asteroid,
+				r = new paper.Path.Rectangle( {
+					point: [ x, Math.floor( y + stroke_width / 2 ) ],
+					size: [ width, height - stroke_width ],
+					strokeColor: 'white',
+					strokeWidth: stroke_width
+				} );
 
 			ship = new Ship( function() {
 				ship.position( new paper.Point(
@@ -110,14 +109,25 @@ define(
 				) );
 			} );
 
-			var asteroid = new Asteroid( function() {
-				asteroid.position( new paper.Point(
-					x + ( width - asteroid.width() ) / 2,
-					y - 55 + 3 * stroke_width
-				) );
-			}, 'paperjs' );
+			for (i = 0; i < 1; i++) {
+				asteroid = new Asteroid( function() {
+					var pos = new paper.Point(
+							Math.floor( Math.random() * (width - 2 * asteroid.width()) + x + asteroid.width() ),
+							y - 55 + 3 * stroke_width
+						),
+						angle = 180 / Math.PI * Math.atan( (y + height - pos.y) / (x + width / 2 - pos.x) );
 
-			asteroids.push( asteroid );
+					if (angle < 0) {
+						angle += 180;
+					}
+
+					asteroid.position( pos );
+					asteroid.angle( angle );
+				}, 'paperjs' );
+
+				asteroids.push( asteroid );
+			}
+
 			asteroids.sort( sort_by_distance );
 			tool.onKeyDown = set_target;
 			tool.onKeyUp = shoot;

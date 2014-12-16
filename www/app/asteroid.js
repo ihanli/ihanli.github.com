@@ -24,7 +24,6 @@ define(
         	this._ready = false;
         	this._group = new paper.Group();
         	this._movement = new paper.Point( 0, Asteroid.VELOCITY );
-			this._movement.angle += Math.floor( Math.random() * 21 - 10 );
 
         	var that = this,
 				sprite = new paper.Raster( {
@@ -107,6 +106,12 @@ define(
 
 		Asteroid.prototype.movement = function() {
 			return this._movement;
+		};
+
+		Asteroid.prototype.angle = function( angle ) {
+			this._movement.angle = angle;
+
+			return this._movement.angle;
 		};
 
 		return Asteroid;
