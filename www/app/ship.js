@@ -1,9 +1,10 @@
 define(
 	[
 		'paper',
-		'app/shot'
+		'app/shot',
+		'app/explosion'
 	],
-	function( paper, Shot ) {
+	function( paper, Shot, Explosion ) {
 		'use strict';
 
 		var _scale = 3;
@@ -19,6 +20,7 @@ define(
             	throw new TypeError( "Ship constructor can't be called as a function." );
         	}
 
+			this._explosion;
         	this.group = new paper.Group();
 
 			var that = this,
@@ -43,6 +45,11 @@ define(
 				if (callback !== undefined && typeof callback === 'function') {
 					callback();
 				}
+
+				that._explosion = Explosion.add( new paper.Point(
+					that.group.position.x - that.width() + 2, that.group.position.y - 3
+				) );
+				that._explosion.scale( 1.5 );
 			};
 
 			_shot = new Shot();
@@ -67,7 +74,7 @@ define(
 				this.group.position = pos;
 			};
 
-			return this.group.children[0].position;
+			return this.group.children.length ? this.group.children[0].position : null;
 		};
 
 		Ship.prototype.directed_angle = function( point ) {
@@ -115,6 +122,11 @@ define(
 
 		Ship.prototype.shot_movement = function( index ) {
 			return _shot.movement( index );
+		};
+
+		Ship.prototype.remove = function() {
+			this._explosion.attach( 'frame', Explosion.start_animation );
+			this.group.remove();
 		};
 
 		return Ship;

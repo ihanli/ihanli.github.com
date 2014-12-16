@@ -134,7 +134,7 @@ define(
 		};
 
 		Field.prototype.animate = function() {
-			var i,
+			var i, j, l,
 				next_pos,
 				test_result,
 				len = asteroids.length;
@@ -142,6 +142,19 @@ define(
 			for (i = 0; i < len; i++) {
 				asteroids[ i ].rotate();
 				asteroids[ i ].move();
+
+				if (ship.position() && asteroids[ i ].hit_test( ship.position().add( new paper.Point( 0, shifted_origin.y * 0.9 ) ) )) {
+					for (j = 0; j <  ship.shots().length; j++) {
+						ship.remove_shot( j );
+					}
+
+					while(asteroids[ i ].text().letter_object()) {
+						asteroids[ i ].text().remove_letter( 0 );
+					}
+
+					ship.remove();
+					asteroids.splice( i, 1 )[0].remove();
+				}
 			}
 
 			for (i = 0; i <  ship.shots().length; i++) {

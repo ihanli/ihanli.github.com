@@ -114,6 +114,10 @@ define(
 			return this._movement.angle;
 		};
 
+		Asteroid.prototype.hit_test = function( pos ) {
+			return this._group.hitTest( pos );
+		};
+
 		return Asteroid;
 	}
 );
