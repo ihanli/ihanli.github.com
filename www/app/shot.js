@@ -48,7 +48,7 @@ define(
 
 		Shot.SIZE = new paper.Size( 88, 80 );
 
-		Shot.VELOCITY = 20;
+		Shot.VELOCITY = 15;
 
 		Shot.scaled_width = function() {
 			return Shot.SIZE.width * _scale;
