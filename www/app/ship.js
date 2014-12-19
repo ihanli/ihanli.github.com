@@ -40,16 +40,17 @@ define(
 				that.group.clipped = true;
 				that.group.bounds.size = Ship.SIZE;
 				that.group.scale( _scale );
-				that.group.rotate( 180 );
 
 				if (callback !== undefined && typeof callback === 'function') {
 					callback();
 				}
+				
+				that.group.rotate( 180, that.position() );
 
 				that._explosion = Explosion.add( new paper.Point(
-					that.group.position.x - that.width() + 2, that.group.position.y - 3
+					that.position().x - 2 * that.width() - 1, that.position().y - 5.5 * that.height()
 				) );
-				that._explosion.scale( 1.5 );
+				that._explosion.scale( 2.5 );
 			};
 
 			_shot = new Shot();

@@ -104,10 +104,14 @@ define(
 
 			ship = new Ship( function() {
 				ship.position( new paper.Point(
+					x + shifted_origin.x - 37 + ( width - ship.width() ) / 2 + stroke_width,
+					y + height
+				) );
+/*				ship.position( new paper.Point(
 					x - 77 + ( width - ship.width() ) / 2 - stroke_width,
 					y - 28 + height - 1.5 * ship.height() - 2 * stroke_width
 				) );
-			} );
+*/			} );
 
 			for (i = 0; i < 1; i++) {
 				asteroid = new Asteroid( function() {
@@ -115,7 +119,7 @@ define(
 							Math.floor( Math.random() * (width - 2 * asteroid.width()) + x + asteroid.width() ),
 							y - 55 + 3 * stroke_width
 						),
-						angle = 180 / Math.PI * Math.atan( (y + height - pos.y) / (x + width / 2 - pos.x) );
+						angle = 180 / Math.PI * Math.atan( (y + height - pos.y - shifted_origin.y) / (x + width / 2 - pos.x) );
 
 					if (angle < 0) {
 						angle += 180;
@@ -140,21 +144,36 @@ define(
 				len = asteroids.length;
 
 			for (i = 0; i < len; i++) {
+				if (ship.position()) {
+					next_pos = asteroids[ i ].position().add( asteroids[ i ].movement() );
+/*
+					if (next_pos.y > ship.position().y) {
+						asteroids[ i ].movement().length = ship.distance( asteroids[ i ] );
+					}
+*/
+
+
+
+					if (asteroids[ i ].hit_test( ship.position() )) {
+					console.log( ship.position() );
+					console.log( asteroids[ i ].position() );
+						for (j = 0; j < ship.shots().length; j++) {
+							ship.remove_shot( j );
+						}
+
+						while(asteroids[ i ].text().letter_object()) {
+							asteroids[ i ].text().remove_letter( 0 );
+						}
+
+						ship.remove();
+						asteroids.splice( i, 1 )[0].remove();
+
+						continue;
+					}
+				}
+
 				asteroids[ i ].rotate();
 				asteroids[ i ].move();
-
-				if (ship.position() && asteroids[ i ].hit_test( ship.position().add( new paper.Point( 0, shifted_origin.y * 0.9 ) ) )) {
-					for (j = 0; j <  ship.shots().length; j++) {
-						ship.remove_shot( j );
-					}
-
-					while(asteroids[ i ].text().letter_object()) {
-						asteroids[ i ].text().remove_letter( 0 );
-					}
-
-					ship.remove();
-					asteroids.splice( i, 1 )[0].remove();
-				}
 			}
 
 			for (i = 0; i <  ship.shots().length; i++) {
