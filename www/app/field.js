@@ -27,6 +27,10 @@ define(
 
 		var target_index;
 
+		var WORDS = {
+			piupiu: ['rails', 'raphaeljs', 'processing', 'canvas', 'html5', 'wordless', 'communication', 'storytelling', 'graph', 'tree']
+		};
+
 		var sort_by_distance = function( a, b ) {
 			var da = ship.distance( a ),
 				db = ship.distance( b );
@@ -94,7 +98,12 @@ define(
         	}
 
 			var i,
+				angle,
 				asteroid,
+				pos,
+				ship_pos,
+				project = window.location.href.match( /\?level=([a-zA-Z]{3,})(&|$)/ )[1],
+				len = WORDS[ project ].length,
 				r = new paper.Path.Rectangle( {
 					point: [ x, Math.floor( y + stroke_width / 2 ) ],
 					size: [ width, height - stroke_width ],
@@ -102,16 +111,30 @@ define(
 					strokeWidth: stroke_width
 				} );
 
-			ship = new Ship( function() {
+			ship_pos = new paper.Point(
+				x + shifted_origin.x - 37 + ( width - Ship.scaled_width() ) / 2 + 2 * stroke_width,
+				y + height
+			);
+			ship = new Ship( ship_pos );
+
+			for (i = 0; i < 2; i++) {
+				pos = new paper.Point(
+					Math.floor( Math.random() * (width - 2 * Asteroid.scaled_width()) + x + Asteroid.scaled_width() ),
+					y - 55 + 3 * stroke_width
+				);
+				angle = Math.ceil( 180 / Math.PI * Math.atan( (ship_pos.y - pos.y) / (ship_pos.x - pos.x) ) );
+
+				asteroids.push( new Asteroid( pos, WORDS[ project ][ i ], angle < 0 ? angle + 180 : angle ) );
+			}
+
+			/*ship = new Ship( function() {
 				ship.position( new paper.Point(
 					x + shifted_origin.x - 37 + ( width - ship.width() ) / 2 + 2 * stroke_width,
 					y + height
 				) );
 
-				for (i = 0; i < 1; i++) {
-					asteroid = new Asteroid( function() {
 						var pos = new paper.Point(
-								Math.floor( Math.random() * (width - 2 * asteroid.width()) + x + asteroid.width() ),
+								Math.floor( Math.random() * (width - 2 * Asteroid.scaled_width()) + x + Asteroid.scaled_width() ),
 								y - 55 + 3 * stroke_width
 							),
 							angle = Math.ceil( 180 / Math.PI * Math.atan( (ship.position().y - pos.y) / (ship.position().x - pos.x) ) );
@@ -120,13 +143,17 @@ define(
 							angle += 180;
 						}
 
-						asteroid.position( pos );
+				for (i = 0; i < 2; i++) {
+					asteroid = new Asteroid( function() {
+
+						//asteroid.position( pos );
+
 						asteroid.angle( angle );
-					}, 'paperjs' );
+					}, WORDS[ project ][ i ], pos );
 
 					asteroids.push( asteroid );
 				}
-			} );
+			} );*/
 
 			asteroids.sort( sort_by_distance );
 			tool.onKeyDown = set_target;
@@ -140,7 +167,7 @@ define(
 				len = asteroids.length;
 
 			for (i = 0; i < len; i++) {
-				if (asteroids[ i ].position() && ship.position()) {
+				if (asteroids[ i ].position().x > 0 && ship.position().x > 0) {
 					next_pos = asteroids[ i ].position().add( asteroids[ i ].movement() );
 
 					if (asteroids[ i ].position().getDistance( ship.position() ) < (ship.height() / 3 + asteroids[ i ].height() / 3)) {

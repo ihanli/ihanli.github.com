@@ -73,7 +73,7 @@ define(
 		Shot.prototype.position = function( index, pos ) {
 			if (pos !== undefined && pos) {
 				_shots[ index ].position = pos;
-			};
+			}
 
 			return _shots[ index ].position;
 		};

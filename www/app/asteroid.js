@@ -15,11 +15,13 @@ define(
 
 		var _explosion;
 
-		var Asteroid = function( callback, text ) {
+		var Asteroid = function( pos, text, angle ) {
 			if (!( this instanceof Asteroid )) {
             	throw new TypeError( "Asteroid constructor can't be called as a function." );
         	}
 
+        	this._width;
+        	this._height;
         	this._explosion;
         	this._ready = false;
         	this._group = new paper.Group();
@@ -42,10 +44,11 @@ define(
 				that._group.clipped = true;
 				that._group.bounds.size = Asteroid.SIZE;
 				that._group.scale( _scale );
+				that._group.position = pos;
+				that._movement.angle = angle;
 
-				if (callback !== undefined && typeof callback === 'function') {
-					callback();
-				}
+				that._width = that._group.children[0].bounds.width;
+				that._height = that._group.children[0].bounds.height;
 
 				that._explosion = Explosion.add( new paper.Point(
 					that._group.position.x - that.width() + 2, that._group.position.y - 3
@@ -65,20 +68,28 @@ define(
 
 		Asteroid.VELOCITY = 3;
 
+		Asteroid.scaled_width = function() {
+			return Asteroid.SIZE.width / _scale;
+		};
+
 		Asteroid.prototype.width = function() {
-			return this._group.children[0].bounds.width;
+			return this._width ? this._width : ( Asteroid.SIZE.width / _scale );
 		};
 
 		Asteroid.prototype.height = function() {
-			return this._group.children[0].bounds.height;
+			return this._height ? this._height : ( Asteroid.SIZE.height / _scale );
 		};
 
 		Asteroid.prototype.position = function( pos ) {
 			if (pos !== undefined && pos) {
+				console.log( this._group.position );
 				this._group.position = pos;
-			};
 
-			return this._group.children.length ? this._group.children[0].position : null;
+				console.log( this._group.position );
+				console.log( pos );
+			}
+
+			return this._group.children.length ? this._group.children[0].position : new paper.Point( 0, 0 );
 		};
 
 		Asteroid.prototype.rotate = function() {

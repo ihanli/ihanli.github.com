@@ -15,13 +15,15 @@ define(
 
 		var _shot;
 
-		var Ship = function( callback ) {
+		var Ship = function( pos ) {
 			if (!( this instanceof Ship )) {
             	throw new TypeError( "Ship constructor can't be called as a function." );
         	}
 
+        	this._width;
+        	this._height;
 			this._explosion;
-        	this.group = new paper.Group();
+        	this._group = new paper.Group();
 
 			var that = this,
 				sprite = new paper.Raster( {
@@ -35,17 +37,16 @@ define(
 
 				this.opacity = 1;
 
-				that.group.addChild( mask );
-				that.group.addChild( sprite );
-				that.group.clipped = true;
-				that.group.bounds.size = Ship.SIZE;
-				that.group.scale( _scale );
+				that._group.addChild( mask );
+				that._group.addChild( sprite );
+				that._group.clipped = true;
+				that._group.bounds.size = Ship.SIZE;
+				that._group.scale( _scale );
+				that._group.position = pos;
+				that._group.rotate( 180, that.position() );
 
-				if (callback !== undefined && typeof callback === 'function') {
-					callback();
-				}
-				
-				that.group.rotate( 180, that.position() );
+				that._width = that._group.children[0].bounds.width;
+				that._height = that._group.children[0].bounds.height;
 
 				that._explosion = Explosion.add( new paper.Point(
 					that.position().x - 2 * that.width() - 1, that.position().y - 5.5 * that.height()
@@ -58,12 +59,16 @@ define(
 
 		Ship.SIZE = new paper.Size( 102, 85 );
 
+		Ship.scaled_width = function() {
+			return Ship.SIZE.width / _scale;
+		};
+
 		Ship.prototype.width = function() {
-			return this.group.children[0].bounds.width;
+			return this._width ? this._width : ( Ship.SIZE.width / _scale );
 		};
 
 		Ship.prototype.height = function() {
-			return this.group.children[0].bounds.height;
+			return this._height ? this._height : ( Ship.SIZE.height / _scale );
 		};
 
 		Ship.prototype.distance = function( asteroid ) {
@@ -75,7 +80,7 @@ define(
 				this.group.position = pos;
 			};
 
-			return this.group.children.length ? this.group.children[0].position : null;
+			return this._group.children.length ? this._group.children[0].position : new paper.Point( 0, 0 );
 		};
 
 		Ship.prototype.directed_angle = function( point ) {
@@ -83,7 +88,7 @@ define(
 		};
 
 		Ship.prototype.rotate = function( angle ) {
-			this.group.rotate( angle - _prev_rotation, this.position() );
+			this._group.rotate( angle - _prev_rotation, this.position() );
 			_prev_rotation = angle;
 		};
 
@@ -127,7 +132,7 @@ define(
 
 		Ship.prototype.remove = function() {
 			this._explosion.attach( 'frame', Explosion.start_animation );
-			this.group.remove();
+			this._group.remove();
 		};
 
 		return Ship;
