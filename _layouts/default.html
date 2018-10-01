@@ -10,5 +10,6 @@
     <title>{{ site.title }}</title>
   </head>
   <body>
+    <div id="portfolio" {% if page.scrollable %}class="scrollable"{% endif %}>{{ content }}</div>
   </body>
 </html>
