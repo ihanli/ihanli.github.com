@@ -8,3 +8,7 @@ require.config({
       }
     }
 });
+
+require(['pixi', 'field'], function (PIXI, Field) {
+  let gameField = new Field(document.getElementById('game-field'));
+});
