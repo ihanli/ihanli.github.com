@@ -1,4 +1,4 @@
-define('field', ['pixi'], function (PIXI) {
+define('field', ['pixi', 'player'], function (PIXI, Player) {
     var BORDER_WIDTH = 5;
 
     return function Field(container) {
@@ -15,7 +15,10 @@ define('field', ['pixi'], function (PIXI) {
             .moveTo(0, topLastLineOfDefense)
             .lineTo(this.app._options.width, topLastLineOfDefense)
 
+        this.player = new Player();
+
         container.prepend(this.app.view);
         this.app.stage.addChild(this.lastLineOfDefense);
+        this.player.addToStage(this.app.stage);
     };
 });
