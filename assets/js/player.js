@@ -14,5 +14,18 @@ define('player', ['pixi'], function (PIXI) {
     stage.addChild(this.ship);
   };
 
+  Player.prototype.setPosition = function (x, y) {
+    this.ship.x = x;
+    this.ship.y = y;
+  };
+
+  Player.prototype.getWidth = function () {
+    return this.ship.width;
+  };
+
+  Player.prototype.getHeight = function () {
+    return this.ship.height;
+  };
+
   return Player;
 });

@@ -1,5 +1,6 @@
 define('field', ['pixi', 'player'], function (PIXI, Player) {
     var BORDER_WIDTH = 5;
+    var HOME_BASE_HEIGHT = 70;
 
     return function Field(container) {
         this.app = new PIXI.Application({
@@ -8,7 +9,7 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
             transparent: true
         });
 
-        let topLastLineOfDefense = this.app._options.height - 70;
+        let topLastLineOfDefense = this.app._options.height - HOME_BASE_HEIGHT;
 
         this.lastLineOfDefense = new PIXI.Graphics()
             .lineStyle(2, 0xffffff)
@@ -16,6 +17,11 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
             .lineTo(this.app._options.width, topLastLineOfDefense)
 
         this.player = new Player();
+
+        this.player.setPosition(
+          (this.app._options.width - this.player.getWidth()) / 2,
+          topLastLineOfDefense + (HOME_BASE_HEIGHT - this.player.getHeight()) / 2
+        );
 
         container.prepend(this.app.view);
         this.app.stage.addChild(this.lastLineOfDefense);
