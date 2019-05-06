@@ -16,8 +16,11 @@ define('player', ['pixi'], function (PIXI) {
   };
 
   Player.prototype.setPosition = function (x, y) {
-    this.ship.x = x;
-    this.ship.y = y;
+    this.ship.position.set(x, y);
+  };
+
+  Player.prototype.setRotation = function (radiant) {
+    this.ship.rotation = radiant;
   };
 
   Player.prototype.getWidth = function () {
@@ -26,10 +29,6 @@ define('player', ['pixi'], function (PIXI) {
 
   Player.prototype.getHeight = function () {
     return this.ship.height;
-  };
-
-  Player.prototype.setRotation = function (radiant) {
-    this.ship.rotation = radiant;
   };
 
   return Player;
