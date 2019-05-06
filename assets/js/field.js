@@ -18,9 +18,10 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
 
         this.player = new Player();
 
+        this.player.setRotation(3.1415);
         this.player.setPosition(
-          (this.app._options.width - this.player.getWidth()) / 2,
-          topLastLineOfDefense + (HOME_BASE_HEIGHT - this.player.getHeight()) / 2
+          this.app._options.width / 2,
+          topLastLineOfDefense + HOME_BASE_HEIGHT / 2
         );
 
         container.prepend(this.app.view);

@@ -4,10 +4,11 @@ define('player', ['pixi'], function (PIXI) {
 
     spriteSheet.baseTexture.width = 1024;
     spriteSheet.baseTexture.height = 1024;
-    spriteSheet.frame = new PIXI.Rectangle(143, 293, 103, 84);
+    spriteSheet.frame = new PIXI.Rectangle(146, 293, 99, 84);
 
     this.ship = new PIXI.Sprite(spriteSheet);
     this.ship.scale.set(0.4);
+    this.ship.anchor.set(0.5, 0.5);
   };
 
   Player.prototype.addToStage = function (stage) {
@@ -25,6 +26,10 @@ define('player', ['pixi'], function (PIXI) {
 
   Player.prototype.getHeight = function () {
     return this.ship.height;
+  };
+
+  Player.prototype.setRotation = function (radiant) {
+    this.ship.rotation = radiant;
   };
 
   return Player;
