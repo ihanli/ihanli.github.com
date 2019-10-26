@@ -1,35 +1,43 @@
-define('player', ['pixi'], function (PIXI) {
-  function Player() {
-    let spriteSheet = PIXI.Texture.from('/assets/images/sheet.png');
+define(
+  'player',
+  [
+    'pixi',
+    'components/spaceShip'
+  ],
+  function (
+    PIXI,
+    SpaceShip
+  ) {
+    function Player() {
+      this.container = new PIXI.Container();
 
-    spriteSheet.baseTexture.width = 1024;
-    spriteSheet.baseTexture.height = 1024;
-    spriteSheet.frame = new PIXI.Rectangle(146, 293, 99, 84);
+      this.spaceShip = new SpaceShip();
+      this.spaceShip.setPosition(0, -5);
 
-    this.ship = new PIXI.Sprite(spriteSheet);
-    this.ship.scale.set(0.4);
-    this.ship.anchor.set(0.5, 0.5);
-  };
 
-  Player.prototype.addToStage = function (stage) {
-    stage.addChild(this.ship);
-  };
+      this.container.addChild(this.spaceShip.getSprite());
+    };
 
-  Player.prototype.setPosition = function (x, y) {
-    this.ship.position.set(x, y);
-  };
+    Player.prototype.addToStage = function (stage) {
+      stage.addChild(this.container);
+    };
 
-  Player.prototype.setRotation = function (radiant) {
-    this.ship.rotation = radiant;
-  };
+    Player.prototype.setPosition = function (x, y) {
+      this.container.position.set(x, y);
+    };
 
-  Player.prototype.getWidth = function () {
-    return this.ship.width;
-  };
+    Player.prototype.setRotation = function (radiant) {
+      this.container.rotation = radiant;
+    };
 
-  Player.prototype.getHeight = function () {
-    return this.ship.height;
-  };
+    Player.prototype.getWidth = function () {
+      return this.container.width;
+    };
 
-  return Player;
-});
+    Player.prototype.getHeight = function () {
+      return this.container.height;
+    };
+
+    return Player;
+  }
+);
