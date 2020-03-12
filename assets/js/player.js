@@ -1,35 +1,65 @@
-define('player', ['pixi'], function (PIXI) {
-  function Player() {
-    let spriteSheet = PIXI.Texture.from('/assets/images/sheet.png');
+define(
+  'player',
+  [
+    'pixi',
+    'components/healthBar',
+    'components/spaceShip',
+    'components/laserBlast'
+  ],
+  function (
+    PIXI,
+    HealthBar,
+    SpaceShip,
+    LaserBlast
+  ) {
+    function Player(stage) {
+      this.stage = stage;
+      this.container = new PIXI.Container();
+      // this.container.anchor.set(0.5, 0.5);
 
-    spriteSheet.baseTexture.width = 1024;
-    spriteSheet.baseTexture.height = 1024;
-    spriteSheet.frame = new PIXI.Rectangle(146, 293, 99, 84);
+      this.spaceShip = new SpaceShip();
+      this.spaceShip.setPosition(0, -5);
 
-    this.ship = new PIXI.Sprite(spriteSheet);
-    this.ship.scale.set(0.4);
-    this.ship.anchor.set(0.5, 0.5);
-  };
+      this.healthBar = new HealthBar();
+      this.healthBar.setPosition(0, 25);
 
-  Player.prototype.addToStage = function (stage) {
-    stage.addChild(this.ship);
-  };
+      this.container.addChild(this.spaceShip.getSprite());
+      this.container.addChild(this.healthBar.getSprite());
 
-  Player.prototype.setPosition = function (x, y) {
-    this.ship.position.set(x, y);
-  };
+      // document.onkeydown = this.shoot.bind(this);
 
-  Player.prototype.setRotation = function (radiant) {
-    this.ship.rotation = radiant;
-  };
+      this.stage.addChild(this.container);
+    };
 
-  Player.prototype.getWidth = function () {
-    return this.ship.width;
-  };
+    Player.prototype.setPosition = function (x, y) {
+      this.container.position.set(x, y);
+    };
 
-  Player.prototype.getHeight = function () {
-    return this.ship.height;
-  };
+    Player.prototype.setRotation = function (radiant) {
+      this.container.rotation = radiant;
+    };
 
-  return Player;
-});
+    Player.prototype.getWidth = function () {
+      return this.container.width;
+    };
+
+    Player.prototype.getHeight = function () {
+      return this.container.height;
+    };
+
+    Player.prototype.shoot = function () {
+      let laser = new LaserBlast();
+
+      laser.setPosition(
+        this.container.position.x,
+        this.container.position.y - this.container.height
+      );
+
+      this.stage.addChild(laser.getSprite());
+
+      return laser;
+    };
+
+    return Player;
+  }
+);
