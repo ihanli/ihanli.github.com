@@ -3,15 +3,19 @@ define(
   [
     'pixi',
     'components/healthBar',
-    'components/spaceShip'
+    'components/spaceShip',
+    'components/laserBlast'
   ],
   function (
     PIXI,
     HealthBar,
-    SpaceShip
+    SpaceShip,
+    LaserBlast
   ) {
-    function Player() {
+    function Player(stage) {
+      this.stage = stage;
       this.container = new PIXI.Container();
+      // this.container.anchor.set(0.5, 0.5);
 
       this.spaceShip = new SpaceShip();
       this.spaceShip.setPosition(0, -5);
@@ -21,10 +25,10 @@ define(
 
       this.container.addChild(this.spaceShip.getSprite());
       this.container.addChild(this.healthBar.getSprite());
-    };
 
-    Player.prototype.addToStage = function (stage) {
-      stage.addChild(this.container);
+      // document.onkeydown = this.shoot.bind(this);
+
+      this.stage.addChild(this.container);
     };
 
     Player.prototype.setPosition = function (x, y) {
@@ -41,6 +45,19 @@ define(
 
     Player.prototype.getHeight = function () {
       return this.container.height;
+    };
+
+    Player.prototype.shoot = function () {
+      let laser = new LaserBlast();
+
+      laser.setPosition(
+        this.container.position.x,
+        this.container.position.y - this.container.height
+      );
+
+      this.stage.addChild(laser.getSprite());
+
+      return laser;
     };
 
     return Player;

@@ -2,7 +2,7 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
     var BORDER_WIDTH = 5;
     var HOME_BASE_HEIGHT = 70;
 
-    return function Field(container) {
+    function Field(container) {
         this.app = new PIXI.Application({
             width: window.innerWidth / 9 * 3,
             height: window.innerHeight - (2 * BORDER_WIDTH),
@@ -16,7 +16,7 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
             .moveTo(0, topLastLineOfDefense)
             .lineTo(this.app._options.width, topLastLineOfDefense)
 
-        this.player = new Player();
+        this.player = new Player(this.app.stage);
 
         this.player.setPosition(
           this.app._options.width / 2,
@@ -25,6 +25,30 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
 
         container.prepend(this.app.view);
         this.app.stage.addChild(this.lastLineOfDefense);
-        this.player.addToStage(this.app.stage);
+
+        this.laserBlasts = [];
+
+        document.onkeydown = this.onKeydownHandler.bind(this);
+
+        this.app.ticker.add((delta) => {
+            for (var i = 0; i < this.laserBlasts.length; i++) {
+              let laserBlast = this.laserBlasts[i];
+
+              laserBlast.move();
+
+              if ((laserBlast.getPosition().y + laserBlast.getSprite().height / 2) <= 0) {
+                this.app.stage.removeChild(laserBlast.getSprite());
+                this.laserBlasts.shift();
+              }
+            }
+        });
     };
+
+    Field.prototype.onKeydownHandler = function (event) {
+        if (event.key.match(/^[a-z\.-]{1}$/)) {
+          this.laserBlasts.push(this.player.shoot());
+        }
+    };
+
+    return Field;
 });

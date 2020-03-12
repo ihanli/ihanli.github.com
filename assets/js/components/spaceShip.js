@@ -1,4 +1,4 @@
-define('components/spaceShip', ['pixi'], function (PIXI, SpaceShip) {
+define('components/spaceShip', ['pixi'], function (PIXI) {
   function SpaceShip() {
     let texture = PIXI.Texture.from('/assets/images/ship.png');
     this.sprite = new PIXI.Sprite(texture);
@@ -12,6 +12,10 @@ define('components/spaceShip', ['pixi'], function (PIXI, SpaceShip) {
 
   SpaceShip.prototype.setPosition = function (x, y) {
     this.sprite.position.set(x, y);
+  };
+
+  SpaceShip.prototype.getPosition = function () {
+    return this.sprite.position;
   };
 
   return SpaceShip;
