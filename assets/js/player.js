@@ -15,7 +15,6 @@ define(
     function Player(stage) {
       this.stage = stage;
       this.container = new PIXI.Container();
-      // this.container.anchor.set(0.5, 0.5);
 
       this.spaceShip = new SpaceShip();
       this.spaceShip.setPosition(0, -5);
@@ -25,8 +24,6 @@ define(
 
       this.container.addChild(this.spaceShip.getSprite());
       this.container.addChild(this.healthBar.getSprite());
-
-      // document.onkeydown = this.shoot.bind(this);
 
       this.stage.addChild(this.container);
     };
