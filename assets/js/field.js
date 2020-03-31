@@ -1,4 +1,15 @@
-define('field', ['pixi', 'player'], function (PIXI, Player) {
+define(
+  'field',
+  [
+    'pixi',
+    'player',
+    'enemyBase'
+  ],
+  function (
+    PIXI,
+    Player,
+    EnemyBase
+  ) {
     var BORDER_WIDTH = 5;
     var HOME_BASE_HEIGHT = 70;
 
