@@ -1,4 +1,4 @@
-define('components/healthBar', ['pixi'], function (PIXI) {
+define('components/player/healthBar', ['pixi'], function (PIXI) {
   function HealthBar() {
     let texture = PIXI.Texture.from('/assets/images/health.png');
     this.sprite = new PIXI.Sprite(texture);

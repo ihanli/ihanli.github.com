@@ -2,9 +2,9 @@ define(
   'player',
   [
     'pixi',
-    'components/healthBar',
-    'components/spaceShip',
-    'components/laserBlast'
+    'components/player/healthBar',
+    'components/player/spaceShip',
+    'components/player/laserBlast'
   ],
   function (
     PIXI,
