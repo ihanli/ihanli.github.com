@@ -34,6 +34,8 @@ define(
           topLastLineOfDefense + HOME_BASE_HEIGHT / 2
         );
 
+        this.enemyBase = new EnemyBase(this.app, topLastLineOfDefense, this.player.getPosition());
+
         container.prepend(this.app.view);
         this.app.stage.addChild(this.lastLineOfDefense);
 

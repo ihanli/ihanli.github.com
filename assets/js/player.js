@@ -32,6 +32,10 @@ define(
       this.container.position.set(x, y);
     };
 
+    Player.prototype.getPosition = function () {
+      return this.container.position;
+    };
+
     Player.prototype.setRotation = function (radiant) {
       this.container.rotation = radiant;
     };
