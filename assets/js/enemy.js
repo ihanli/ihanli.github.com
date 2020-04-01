@@ -62,7 +62,7 @@ define(
     };
 
     Enemy.prototype.move = function (delta) {
-      let offset = this.getHeight() / 2;
+      let offset = this.healthBar.getHeight() * 1.6;
 
       if (this.travelDistance === 0 || (this.container.position.y + offset) >= this.travelDistance) {
         return
