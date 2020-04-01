@@ -6,7 +6,7 @@ define('enemyBase', ['pixi', 'enemy'], function (PIXI, Enemy) {
       app._options.width - enemy.getWidth() / 4
     );
 
-    enemy.setPosition(x, 100);
+    enemy.setPosition(x, -45);
     enemy.setTravelDistance(travelDistance);
     enemy.aimAt(playerPosition);
     enemy.startMovement();
