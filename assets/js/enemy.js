@@ -11,7 +11,6 @@ define(
     Vector2D
   ) {
     var VELOCITY = 5;
-    var DEGREES_PER_ROTATION = 5;
 
     function Enemy(app) {
       this.app = app;
@@ -55,7 +54,7 @@ define(
 
     Enemy.prototype.startMovement = function () {
       this.app.ticker.add((delta) => {
-        this.rotate(delta);
+        this.asteroid.rotate(delta);
         this.move(delta);
       });
     };
@@ -72,10 +71,6 @@ define(
         this.container.position.x += this.movement.getX() * delta;
         this.container.position.y += this.movement.getY() * delta;
       }
-    };
-
-    Enemy.prototype.rotate = function (delta) {
-      this.container.rotation += PIXI.DEG_TO_RAD * DEGREES_PER_ROTATION * delta;
     };
 
     return Enemy;
