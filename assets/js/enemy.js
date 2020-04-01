@@ -62,11 +62,16 @@ define(
       });
     };
 
-      if (this.travelDistance === 0) {
     Enemy.prototype.move = function (delta) {
+      let offset = this.getHeight() / 2;
+
+      if (this.travelDistance === 0 || (this.container.position.y + offset) >= this.travelDistance) {
         return
-      } else if (this.container.position.y + this.movement.getY() > this.travelDistance) {
-        this.container.position.y = this.travelDistance;
+      } else if (this.container.position.y + this.movement.getY() + offset > this.travelDistance) {
+        let angle = Math.asin(this.movement.getX() / VELOCITY);
+
+        this.container.position.x += (this.travelDistance - this.container.position.y - offset) * Math.tan(angle);
+        this.container.position.y = this.travelDistance - offset;
       } else {
         this.container.position.x += this.movement.getX() * delta;
         this.container.position.y += this.movement.getY() * delta;
