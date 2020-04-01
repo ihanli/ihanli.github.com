@@ -16,7 +16,7 @@ define(
     function Enemy(app) {
       this.app = app;
       this.travelDistance = 0;
-      this.movement = new Vector2D(0, VELOCITY);
+      this.movement = new Vector2D(VELOCITY, 0);
 
       this.container = new PIXI.Container();
       this.container.position.set(0, 0);
@@ -45,14 +45,12 @@ define(
     };
 
     Enemy.prototype.aimAt = function (target) {
-      let localVector = new Vector2D(
+      let localVector = Vector2D.createFromCartesian(
         target.x - this.container.x,
         target.y - this.container.y
       );
-      let angle = Math.asin(localVector.getX() / localVector.getLength());
 
-      this.movement.setX(VELOCITY * Math.sin(angle));
-      this.movement.setY(VELOCITY * Math.cos(angle));
+      this.movement.setAngle(localVector.getAngle());
     };
 
     Enemy.prototype.startMovement = function () {
@@ -68,9 +66,7 @@ define(
       if (this.travelDistance === 0 || (this.container.position.y + offset) >= this.travelDistance) {
         return
       } else if (this.container.position.y + this.movement.getY() + offset > this.travelDistance) {
-        let angle = Math.asin(this.movement.getX() / VELOCITY);
-
-        this.container.position.x += (this.travelDistance - this.container.position.y - offset) * Math.tan(angle);
+        this.container.position.x += (this.travelDistance - this.container.position.y - offset) * this.movement.getTangent();
         this.container.position.y = this.travelDistance - offset;
       } else {
         this.container.position.x += this.movement.getX() * delta;
