@@ -3,11 +3,13 @@ define(
   [
     'pixi',
     'components/enemy/asteroid',
+    'components/enemy/healthBar',
     'vector2D'
   ],
   function (
     PIXI,
     Asteroid,
+    HealthBar,
     Vector2D
   ) {
     var VELOCITY = 5;
@@ -23,7 +25,11 @@ define(
       this.asteroid = new Asteroid();
       this.asteroid.setPosition(0, 0);
 
+      this.healthBar = new HealthBar('shangalang');
+      this.healthBar.setY(15);
+
       this.container.addChild(this.asteroid.getSprite());
+      this.container.addChild(this.healthBar.getText());
       this.app.stage.addChild(this.container);
     };
 
@@ -32,11 +38,7 @@ define(
     };
 
     Enemy.prototype.getWidth = function () {
-      return this.asteroid.getSprite().texture.baseTexture.width;
-    };
-
-    Enemy.prototype.getHeight = function () {
-      return this.asteroid.getSprite().texture.baseTexture.height;
+      return this.healthBar.getWidth();
     };
 
     Enemy.prototype.setTravelDistance = function (travelDistance) {

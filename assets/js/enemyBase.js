@@ -2,8 +2,8 @@ define('enemyBase', ['pixi', 'enemy'], function (PIXI, Enemy) {
   function EnemyBase(app, travelDistance, playerPosition) {
     let enemy = new Enemy(app);
     let x = getRandomInt(
-      enemy.getWidth() / 4,
-      app._options.width - enemy.getWidth() / 4
+      enemy.getWidth() / 2,
+      app._options.width - enemy.getWidth() / 2
     );
 
     enemy.setPosition(x, -45);
