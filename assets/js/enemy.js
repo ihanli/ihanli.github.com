@@ -57,24 +57,24 @@ define(
 
     Enemy.prototype.startMovement = function () {
       this.app.ticker.add((delta) => {
-        this.rotate();
-        this.move();
+        this.rotate(delta);
+        this.move(delta);
       });
     };
 
-    Enemy.prototype.move = function () {
       if (this.travelDistance === 0) {
+    Enemy.prototype.move = function (delta) {
         return
       } else if (this.container.position.y + this.movement.getY() > this.travelDistance) {
         this.container.position.y = this.travelDistance;
       } else {
-        this.container.position.x += this.movement.getX();
-        this.container.position.y += this.movement.getY();
+        this.container.position.x += this.movement.getX() * delta;
+        this.container.position.y += this.movement.getY() * delta;
       }
     };
 
-    Enemy.prototype.rotate = function () {
-      this.container.rotation += PIXI.DEG_TO_RAD * DEGREES_PER_ROTATION;
+    Enemy.prototype.rotate = function (delta) {
+      this.container.rotation += PIXI.DEG_TO_RAD * DEGREES_PER_ROTATION * delta;
     };
 
     return Enemy;
