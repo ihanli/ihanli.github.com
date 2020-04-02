@@ -12,7 +12,7 @@ define(
     HealthBar,
     Vector2D
   ) {
-    var VELOCITY = 5;
+    const VELOCITY = 5;
 
     function Enemy(app) {
       this.app = app;
