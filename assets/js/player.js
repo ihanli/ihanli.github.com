@@ -53,7 +53,7 @@ define(
 
       laser.setPosition(
         this.container.position.x,
-        this.container.position.y - this.container.height
+        this.container.position.y - this.getHeight()
       );
 
       this.app.stage.addChild(laser.getSprite());
