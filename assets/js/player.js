@@ -26,6 +26,8 @@ define(
       this.container.addChild(this.healthBar.getSprite());
 
       this.app.stage.addChild(this.container);
+
+      document.addEventListener('player.hit', this.decreaseHealth.bind(this), false);
     };
 
     Player.prototype.setPosition = function (x, y) {
@@ -59,6 +61,10 @@ define(
       this.app.stage.addChild(laser.getSprite());
 
       return laser;
+    };
+
+    Player.prototype.decreaseHealth = function (evt) {
+      this.healthBar.decreaseHealth(evt.detail.damage);
     };
 
     return Player;
