@@ -35,8 +35,6 @@ define(
         );
 
         this.enemyBase = new EnemyBase(this.app, topLastLineOfDefense, this.player.getPosition());
-
-        container.prepend(this.app.view);
         this.app.stage.addChild(this.lastLineOfDefense);
 
         this.laserBlasts = [];
@@ -55,6 +53,8 @@ define(
               }
             }
         });
+
+        container.prepend(this.app.view);
     };
 
     Field.prototype.onKeydownHandler = function (event) {
