@@ -12,8 +12,8 @@ define(
     SpaceShip,
     LaserBlast
   ) {
-    function Player(stage) {
-      this.stage = stage;
+    function Player(app) {
+      this.app = app;
       this.container = new PIXI.Container();
 
       this.spaceShip = new SpaceShip();
@@ -25,7 +25,7 @@ define(
       this.container.addChild(this.spaceShip.getSprite());
       this.container.addChild(this.healthBar.getSprite());
 
-      this.stage.addChild(this.container);
+      this.app.stage.addChild(this.container);
     };
 
     Player.prototype.setPosition = function (x, y) {
@@ -56,7 +56,7 @@ define(
         this.container.position.y - this.container.height
       );
 
-      this.stage.addChild(laser.getSprite());
+      this.app.stage.addChild(laser.getSprite());
 
       return laser;
     };

@@ -27,7 +27,7 @@ define(
             .moveTo(0, topLastLineOfDefense)
             .lineTo(this.app._options.width, topLastLineOfDefense)
 
-        this.player = new Player(this.app.stage);
+        this.player = new Player(this.app);
 
         this.player.setPosition(
           this.app._options.width / 2,
