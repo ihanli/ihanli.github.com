@@ -10,8 +10,8 @@ define(
     Player,
     EnemyBase
   ) {
-    var BORDER_WIDTH = 5;
-    var HOME_BASE_HEIGHT = 70;
+    const BORDER_WIDTH = 5;
+    const HOME_BASE_HEIGHT = 70;
 
     function Field(container) {
         this.app = new PIXI.Application({
