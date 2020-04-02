@@ -65,7 +65,7 @@ define(
       let offset = this.healthBar.getHeight() * 1.6;
 
       if (this.travelDistance === 0 || (this.container.position.y + offset) >= this.travelDistance) {
-        return
+        return;
       } else if (this.container.position.y + this.movement.getY() + offset > this.travelDistance) {
         this.container.position.x += (this.travelDistance - this.container.position.y - offset) * this.movement.getTangent();
         this.container.position.y = this.travelDistance - offset;
