@@ -10,18 +10,20 @@ define('components/player/healthBar', ['pixi'], function (PIXI) {
     this.health = new PIXI.Graphics();
     this.health.scale.set(0.2);
 
-    drawHealth(this.health, MAX_HEALTH);
+    this.currentHealthValue = setHealth(this.health, MAX_HEALTH);
 
     this.container = new PIXI.Container();
     this.container.addChild(sprite);
     this.container.addChild(this.health);
   };
 
-  function drawHealth(health, value) {
+  function setHealth(health, value) {
     health.clear();
     health.beginFill(0x406271);
     health.drawRoundedRect(-133, -19.5, value, 39, 3);
     health.endFill();
+
+    return value;
   }
 
   HealthBar.prototype.setPosition = function (x, y) {
@@ -33,7 +35,7 @@ define('components/player/healthBar', ['pixi'], function (PIXI) {
   };
 
   HealthBar.prototype.decreaseHealth = function (damage) {
-    drawHealth(this.health, MAX_HEALTH * damage / 100);
+    this.currentHealthValue = setHealth(this.health, this.currentHealthValue - (MAX_HEALTH * damage / 100));
   };
 
   return HealthBar;

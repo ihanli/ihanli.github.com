@@ -64,7 +64,20 @@ define(
     };
 
     Player.prototype.decreaseHealth = function (evt) {
-      this.healthBar.decreaseHealth(evt.detail.damage);
+      let self = this;
+      let currentFrame = 0;
+      let targetFrame = 10;
+      let animate = function (delta) {
+        if (currentFrame === targetFrame) {
+          self.app.ticker.remove(animate);
+          return;
+        }
+
+        self.healthBar.decreaseHealth(evt.detail.damage / targetFrame);
+        currentFrame++;
+      };
+
+      this.app.ticker.add(animate);
     };
 
     return Player;
