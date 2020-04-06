@@ -1,4 +1,4 @@
-define('components/spaceShip', ['pixi'], function (PIXI) {
+define('components/player/spaceShip', ['pixi'], function (PIXI) {
   function SpaceShip() {
     let texture = PIXI.Texture.from('/assets/images/ship.png');
     this.sprite = new PIXI.Sprite(texture);

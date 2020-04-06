@@ -2,9 +2,9 @@ define(
   'player',
   [
     'pixi',
-    'components/healthBar',
-    'components/spaceShip',
-    'components/laserBlast'
+    'components/player/healthBar',
+    'components/player/spaceShip',
+    'components/player/laserBlast'
   ],
   function (
     PIXI,
@@ -12,10 +12,9 @@ define(
     SpaceShip,
     LaserBlast
   ) {
-    function Player(stage) {
-      this.stage = stage;
+    function Player(app) {
+      this.app = app;
       this.container = new PIXI.Container();
-      // this.container.anchor.set(0.5, 0.5);
 
       this.spaceShip = new SpaceShip();
       this.spaceShip.setPosition(0, -5);
@@ -26,13 +25,17 @@ define(
       this.container.addChild(this.spaceShip.getSprite());
       this.container.addChild(this.healthBar.getSprite());
 
-      // document.onkeydown = this.shoot.bind(this);
+      this.app.stage.addChild(this.container);
 
-      this.stage.addChild(this.container);
+      document.addEventListener('player.hit', this.decreaseHealth.bind(this), false);
     };
 
     Player.prototype.setPosition = function (x, y) {
       this.container.position.set(x, y);
+    };
+
+    Player.prototype.getPosition = function () {
+      return this.container.position;
     };
 
     Player.prototype.setRotation = function (radiant) {
@@ -52,12 +55,29 @@ define(
 
       laser.setPosition(
         this.container.position.x,
-        this.container.position.y - this.container.height
+        this.container.position.y - this.getHeight()
       );
 
-      this.stage.addChild(laser.getSprite());
+      this.app.stage.addChild(laser.getSprite());
 
       return laser;
+    };
+
+    Player.prototype.decreaseHealth = function (evt) {
+      let self = this;
+      let currentFrame = 0;
+      let targetFrame = 10;
+      let animate = function (delta) {
+        if (currentFrame === targetFrame) {
+          self.app.ticker.remove(animate);
+          return;
+        }
+
+        self.healthBar.decreaseHealth(evt.detail.damage / targetFrame);
+        currentFrame++;
+      };
+
+      this.app.ticker.add(animate);
     };
 
     return Player;

@@ -1,4 +1,4 @@
-define('components/laserBlast', ['pixi', 'vector'], function (PIXI) {
+define('components/player/laserBlast', ['pixi'], function (PIXI) {
   var VELOCITY = 15;
   function LaserBlast() {
     let texture = PIXI.Texture.from('/assets/images/laser.png');

@@ -1,6 +1,17 @@
-define('field', ['pixi', 'player'], function (PIXI, Player) {
-    var BORDER_WIDTH = 5;
-    var HOME_BASE_HEIGHT = 70;
+define(
+  'field',
+  [
+    'pixi',
+    'player',
+    'enemyBase'
+  ],
+  function (
+    PIXI,
+    Player,
+    EnemyBase
+  ) {
+    const BORDER_WIDTH = 5;
+    const HOME_BASE_HEIGHT = 70;
 
     function Field(container) {
         this.app = new PIXI.Application({
@@ -16,14 +27,14 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
             .moveTo(0, topLastLineOfDefense)
             .lineTo(this.app._options.width, topLastLineOfDefense)
 
-        this.player = new Player(this.app.stage);
+        this.player = new Player(this.app);
 
         this.player.setPosition(
           this.app._options.width / 2,
           topLastLineOfDefense + HOME_BASE_HEIGHT / 2
         );
 
-        container.prepend(this.app.view);
+        this.enemyBase = new EnemyBase(this.app, topLastLineOfDefense, this.player.getPosition());
         this.app.stage.addChild(this.lastLineOfDefense);
 
         this.laserBlasts = [];
@@ -42,6 +53,8 @@ define('field', ['pixi', 'player'], function (PIXI, Player) {
               }
             }
         });
+
+        container.prepend(this.app.view);
     };
 
     Field.prototype.onKeydownHandler = function (event) {
