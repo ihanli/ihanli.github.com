@@ -4,12 +4,14 @@ define(
     'pixi',
     'components/enemy/asteroid',
     'components/enemy/healthBar',
+    'components/animations/explosion',
     'vector2D'
   ],
   function (
     PIXI,
     Asteroid,
     HealthBar,
+    Explosion,
     Vector2D
   ) {
     const VELOCITY = 5;
@@ -29,10 +31,14 @@ define(
       this.asteroid = new Asteroid();
       this.asteroid.setPosition(0, 0);
 
+      this.explosion = new Explosion(this.app.ticker);
+      this.explosion.setPosition(0, 0);
+
       this.healthBar = new HealthBar('shangalang');
       this.healthBar.setY(15);
 
       this.container.addChild(this.asteroid.getSprite());
+      this.container.addChild(this.explosion.getSprite());
       this.container.addChild(this.healthBar.getText());
       this.app.stage.addChild(this.container);
     };
@@ -81,12 +87,22 @@ define(
 
         document.dispatchEvent(evt);
 
-        this.app.ticker.remove(this.animate, this);
-        this.app.stage.removeChild(this.container);
+        this.destroy();
       } else {
         this.container.position.x += this.movement.getX() * delta;
         this.container.position.y += this.movement.getY() * delta;
       }
+    };
+
+    Enemy.prototype.destroy = function () {
+      let self = this;
+
+      this.container.removeChild(this.healthBar.getText());
+      this.app.ticker.remove(this.animate, this);
+
+      this.explosion.animate(function () {
+        self.app.stage.removeChild(self.container);
+      });
     };
 
     return Enemy;
