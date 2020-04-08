@@ -2,12 +2,14 @@ define(
   'player',
   [
     'pixi',
+    'player/weaponSystem',
     'components/player/healthBar',
     'components/player/spaceShip',
     'components/player/laserBlast'
   ],
   function (
     PIXI,
+    WeaponSystem,
     HealthBar,
     SpaceShip,
     LaserBlast
@@ -15,6 +17,9 @@ define(
     function Player(app) {
       this.app = app;
       this.container = new PIXI.Container();
+      this.weaponSystem = new WeaponSystem(this.app, this);
+
+      document.onkeydown = this.onKeydownHandler.bind(this);
 
       this.spaceShip = new SpaceShip();
       this.spaceShip.setPosition(0, -5);
@@ -78,6 +83,12 @@ define(
       };
 
       this.app.ticker.add(animate);
+    };
+
+    Player.prototype.onKeydownHandler = function (event) {
+        if (event.key.match(/^[a-z\.-]{1}$/)) {
+          this.weaponSystem.shoot();
+        }
     };
 
     return Player;
