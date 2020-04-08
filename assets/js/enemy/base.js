@@ -1,4 +1,4 @@
-define('enemyBase', ['pixi', 'enemy'], function (PIXI, Enemy) {
+define('enemy/base', ['pixi', 'enemy'], function (PIXI, Enemy) {
   function EnemyBase(app, travelDistance, playerPosition) {
     let enemy = new Enemy(app);
     let x = getRandomInt(

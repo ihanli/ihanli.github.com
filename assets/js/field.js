@@ -3,7 +3,7 @@ define(
   [
     'pixi',
     'player',
-    'enemyBase'
+    'enemy/base'
   ],
   function (
     PIXI,
