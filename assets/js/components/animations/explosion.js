@@ -1,5 +1,7 @@
 define('components/animations/explosion', ['pixi'], function (PIXI) {
   const TARGET_SCALE = 0.9;
+  const SCALE_INCREASE_RATE = 0.3;
+  const SCALE_DECREASE_RATE = 0.45;
 
   function Explosion(ticker) {
     let texture = PIXI.Texture.from('/assets/images/explosion.png');
@@ -39,7 +41,7 @@ define('components/animations/explosion', ['pixi'], function (PIXI) {
         return;
       }
 
-      self.sprite.scale.set(self.sprite.scale.x + 0.3);
+      self.sprite.scale.set(self.sprite.scale.x + SCALE_INCREASE_RATE);
     };
 
     this.ticker.add(animate);
@@ -58,7 +60,7 @@ define('components/animations/explosion', ['pixi'], function (PIXI) {
         return;
       }
 
-      self.sprite.scale.set(self.sprite.scale.x - 0.45);
+      self.sprite.scale.set(self.sprite.scale.x - SCALE_DECREASE_RATE);
     };
 
     this.ticker.add(animate);
