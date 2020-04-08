@@ -5,7 +5,7 @@ define(
     'components/enemy/asteroid',
     'components/enemy/healthBar',
     'components/animations/explosion',
-    'vector2D'
+    'utils/vector2D'
   ],
   function (
     PIXI,

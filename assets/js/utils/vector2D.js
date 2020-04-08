@@ -1,4 +1,4 @@
-define('vector2D', ['pixi'], function (PIXI) {
+define('utils/vector2D', ['pixi'], function (PIXI) {
   function Vector2D(length, angle) {
     this.length = length;
     this.angle = angle;
