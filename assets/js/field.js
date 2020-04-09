@@ -2,12 +2,12 @@ define(
   'field',
   [
     'pixi',
-    'player',
+    'spaceShip',
     'asteroidBelt'
   ],
   function (
     PIXI,
-    Player,
+    SpaceShip,
     AsteroidBelt
   ) {
     const BORDER_WIDTH = 5;
@@ -20,6 +20,7 @@ define(
             transparent: true
         });
 
+        let spaceShip = new SpaceShip();
         let topLastLineOfDefense = this.app._options.height - HOME_BASE_HEIGHT;
 
         this.lastLineOfDefense = new PIXI.Graphics()
@@ -27,18 +28,14 @@ define(
             .moveTo(0, topLastLineOfDefense)
             .lineTo(this.app._options.width, topLastLineOfDefense)
 
-        this.player = new Player(this.app);
+        spaceShip.position.set(this.app._options.width / 2, topLastLineOfDefense + HOME_BASE_HEIGHT / 2);
 
-        this.player.setPosition(
-          this.app._options.width / 2,
-          topLastLineOfDefense + HOME_BASE_HEIGHT / 2
-        );
+        this.asteroidBelt = new AsteroidBelt(this.app, topLastLineOfDefense, spaceShip.position);
 
-        this.asteroidBelt = new AsteroidBelt(this.app, topLastLineOfDefense, this.player.getPosition());
-        this.app.stage.addChild(this.lastLineOfDefense);
-
+        this.app.stage.addChild(this.lastLineOfDefense, spaceShip);
         container.prepend(this.app.view);
     };
 
     return Field;
-});
+  }
+);
