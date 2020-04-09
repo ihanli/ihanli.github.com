@@ -96,4 +96,5 @@ define(
         this.movement.setAngle(localVector.getAngle());
       };
     };
-});
+  }
+);
