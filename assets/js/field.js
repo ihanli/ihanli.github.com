@@ -3,12 +3,12 @@ define(
   [
     'pixi',
     'player',
-    'enemy/base'
+    'asteroidBelt'
   ],
   function (
     PIXI,
     Player,
-    EnemyBase
+    AsteroidBelt
   ) {
     const BORDER_WIDTH = 5;
     const HOME_BASE_HEIGHT = 70;
@@ -34,7 +34,7 @@ define(
           topLastLineOfDefense + HOME_BASE_HEIGHT / 2
         );
 
-        this.enemyBase = new EnemyBase(this.app, topLastLineOfDefense, this.player.getPosition());
+        this.asteroidBelt = new AsteroidBelt(this.app, topLastLineOfDefense, this.player.getPosition());
         this.app.stage.addChild(this.lastLineOfDefense);
 
         container.prepend(this.app.view);
