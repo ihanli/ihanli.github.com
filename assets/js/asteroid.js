@@ -95,6 +95,10 @@ define(
 
         this.movement.setAngle(localVector.getAngle());
       };
+
+      get currentLetter() {
+        return this.children[2].currentLetter;
+      };
     };
   }
 );

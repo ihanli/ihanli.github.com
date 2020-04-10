@@ -27,6 +27,10 @@ define(
         }
 
         this.position.set(offset / -2, 0);
-      }
+      };
+
+      get currentLetter() {
+        return this.children[0].text;
+      };
     };
 });
