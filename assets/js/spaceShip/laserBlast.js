@@ -19,8 +19,8 @@ define(
       };
 
       move(delta) {
-        this.position.y -= this.movement.y;
-        this.position.x -= this.movement.x;
+        this.position.y -= this.movement.y * delta;
+        this.position.x -= this.movement.x * delta;
 
         if (this.position.y <= 0) {
           PIXI.ticker.shared.remove(this.move, this);
