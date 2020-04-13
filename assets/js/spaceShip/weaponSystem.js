@@ -40,16 +40,17 @@ define(
           this.currentTarget = lockTarget(this.spaceShip.parent, event.key);
 
           if (this.currentTarget !== undefined) {
-            let localVector = Vector2D.createFromCartesian(
-              this.currentTarget.position.x - this.spaceShip.position.x,
-              this.currentTarget.position.y - this.spaceShip.position.y
+            let worldPosition = this.currentTarget.currentLetter.toGlobal(this.currentTarget.parent.position);
+            let localVector = new PIXI.Point(
+              worldPosition.x - this.spaceShip.position.x,
+              worldPosition.y - this.spaceShip.position.y
             );
 
-            this.spaceShip.rotateBy(localVector.getSine());
+            this.spaceShip.rotation = Math.asin(localVector.x / Math.hypot(localVector.x, localVector.y));
           }
         }
 
-        if (this.currentTarget instanceof Asteroid) {
+        if ((this.currentTarget instanceof Asteroid) && this.currentTarget.currentLetter.text === event.key) {
           this.shoot();
         }
       };
@@ -59,7 +60,7 @@ define(
       let index = 0;
 
       for (var i = 0; i < stage.children.length; i++) {
-        if ((stage.children[i] instanceof Asteroid) && stage.children[i].currentLetter === needle) {
+        if ((stage.children[i] instanceof Asteroid) && stage.children[i].currentLetter.text === needle) {
           return stage.getChildAt(i);
         }
       }

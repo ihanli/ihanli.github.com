@@ -35,7 +35,7 @@ define(
       };
 
       get currentLetter() {
-        return this.children[0].text;
+        return this.children[0];
       };
     };
 });
