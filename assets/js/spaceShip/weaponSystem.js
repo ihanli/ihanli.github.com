@@ -21,11 +21,12 @@ define(
       };
 
       shoot() {
-        let laser = new LaserBlast(this.spaceShip.position.x, this.spaceShip.position.y - this.spaceShip.height);
+        let laser = new LaserBlast(
+          this.spaceShip.position.x + this.spaceShip.height * Math.sin(this.spaceShip.rotation),
+          this.spaceShip.position.y - this.spaceShip.height * Math.cos(this.spaceShip.rotation)
+        );
 
         laser.rotation = this.spaceShip.rotation;
-        laser.position.x = this.spaceShip.position.x + ((laser.position.x - this.spaceShip.position.x) * Math.cos(this.spaceShip.rotation) - (laser.position.y - this.spaceShip.position.y) * Math.sin(this.spaceShip.rotation));
-        laser.position.y = this.spaceShip.position.y + ((laser.position.x - this.spaceShip.position.x) * Math.sin(this.spaceShip.rotation) + (laser.position.y - this.spaceShip.position.y) * Math.cos(this.spaceShip.rotation));
 
         this.spaceShip.parent.addChild(laser);
 
