@@ -47,13 +47,13 @@ define(
         PIXI.ticker.shared.add(animate);
       };
 
-      rotateBy(delta) {
-        this.children[0].rotation = this.rotation + delta;
-      };
+      set rotation(value) {
+        this.children[0].rotation = value;
+      }
 
       get rotation() {
         return this.children[0].rotation;
-      }
+      };
     };
   }
 );
