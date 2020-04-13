@@ -33,7 +33,7 @@ define(
         sprite.scale.set(0.3);
         sprite.anchor.set(0.5, 0.5);
 
-        healthBar.position.y = 15;
+        healthBar.position.y = 25;
 
         this.addChild(sprite, new Explosion(), healthBar);
       };
