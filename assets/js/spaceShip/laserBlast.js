@@ -30,6 +30,10 @@ define(
       startMovement() {
         PIXI.ticker.shared.add(this.move, this);
       };
+
+      static get VELOCITY() {
+        return VELOCITY;
+      };
     };
   }
 );

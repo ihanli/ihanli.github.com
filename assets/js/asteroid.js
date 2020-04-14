@@ -100,6 +100,10 @@ define(
       get currentLetter() {
         return this.children[2].currentLetter;
       };
+
+      static get VELOCITY() {
+        return VELOCITY;
+      };
     };
   }
 );
