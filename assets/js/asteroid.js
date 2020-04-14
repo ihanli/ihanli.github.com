@@ -3,13 +3,11 @@ define(
   [
     'pixi',
     'asteroid/healthBar',
-    'utils/vector2D',
     'animations/explosion'
   ],
   function (
     PIXI,
     HealthBar,
-    Vector2D,
     Explosion
   ) {
     const DEGREES_PER_ROTATION = 5;
@@ -22,7 +20,7 @@ define(
       constructor() {
         super();
 
-        this.movement = new Vector2D(VELOCITY, 0);
+        this.trajectory = new PIXI.Point(VELOCITY, 0);
         this.travelDistance = 0;
         this.damage = 50;
 
@@ -47,19 +45,20 @@ define(
 
         if (this.travelDistance === 0 || (this.position.y + offset) >= this.travelDistance) {
           return;
-        } else if (this.position.y + this.movement.getY() + offset > this.travelDistance) {
+        } else if (this.position.y + this.trajectory.y + offset > this.travelDistance) {
+          let trajectoryAngle = Math.asin(this.trajectory.x / Math.hypot(this.trajectory.x, this.trajectory.y));
           let evt = EVENTS['player.hit'];
           evt.detail.damage = this.damage;
 
-          this.position.x += (this.travelDistance - this.position.y - offset) * this.movement.getTangent();
+          this.position.x += (this.travelDistance - this.position.y - offset) * Math.tan(trajectoryAngle);
           this.position.y = this.travelDistance - offset;
 
           document.dispatchEvent(evt);
 
           this.blowUp();
         } else {
-          this.position.x += this.movement.getX() * delta;
-          this.position.y += this.movement.getY() * delta;
+          this.position.x += this.trajectory.x * delta;
+          this.position.y += this.trajectory.y * delta;
         }
       };
 
@@ -88,12 +87,14 @@ define(
       };
 
       aimAt(target) {
-        let localVector = Vector2D.createFromCartesian(
-          target.x - this.x,
-          target.y - this.y
-        );
+        this.trajectory.x = target.x - this.x;
+        this.trajectory.y = target.y - this.y;
 
-        this.movement.setAngle(localVector.getAngle());
+        // The trajectory actually points directly to the target now. Calculate a factor so the vector can be normalized.
+        let normFactor = VELOCITY / Math.hypot(this.trajectory.x, this.trajectory.y);
+
+        this.trajectory.x *= normFactor;
+        this.trajectory.y *= normFactor;
       };
 
       get currentLetter() {
