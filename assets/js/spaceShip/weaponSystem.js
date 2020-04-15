@@ -72,7 +72,7 @@ define(
       let divisor = 2 * (laserSpeedSquared - targetSpeedSquared);
 
       return dividend / divisor;
-    }
+    };
 
     function lockTarget(stage, needle) {
       let index = 0;
@@ -84,8 +84,8 @@ define(
       }
 
       return undefined;
-    }
+    };
 
     return WeaponSystem;
-  }
+  };
 );
