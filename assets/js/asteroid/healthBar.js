@@ -1,17 +1,13 @@
 define(
   'asteroid/healthBar',
   [
-    'pixi'
+    'pixi',
+    'asteroid/letter'
   ],
   function (
-    PIXI
+    PIXI,
+    Letter
   ) {
-    const STYLE = {
-      fill: 'white',
-      fontSize: 13,
-      align: 'center'
-    };
-
     return class HealthBar extends PIXI.Container {
       constructor(value) {
         super();
@@ -19,7 +15,7 @@ define(
         let offset = 0;
 
         for (var i = 0; i < value.length; i++) {
-          let letter = new PIXI.Text(value.charAt(i), STYLE);
+          let letter = new Letter(value.charAt(i));
 
           offset += letter.width / 2;
 
