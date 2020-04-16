@@ -38,4 +38,5 @@ define(
         return this.children[0];
       };
     };
-});
+  }
+);

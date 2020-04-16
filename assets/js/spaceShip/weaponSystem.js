@@ -87,5 +87,5 @@ define(
     };
 
     return WeaponSystem;
-  };
+  }
 );
