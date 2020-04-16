@@ -30,6 +30,10 @@ define(
         this.position.set(offset / -2, 0);
       };
 
+      decreaseHealth() {
+        this.currentLetter.blowUp();
+      };
+
       get currentLetter() {
         return this.children[0];
       };

@@ -34,6 +34,12 @@ define(
         healthBar.position.y = 25;
 
         this.addChild(sprite, new Explosion(), healthBar);
+
+        document.addEventListener('asteroid.hit', this.decreaseHealth.bind(this), false);
+      };
+
+      decreaseHealth(evt) {
+        this.children[2].decreaseHealth();
       };
 
       rotate(delta) {
