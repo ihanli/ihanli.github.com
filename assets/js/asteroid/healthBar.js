@@ -30,6 +30,12 @@ define(
         this.position.set(offset / -2, 0);
       };
 
+      onChildrenChange() {
+        if (this.children.length === 0) {
+          this.parent.blowUp();
+        }
+      };
+
       decreaseHealth() {
         this.currentLetter.blowUp();
       };
