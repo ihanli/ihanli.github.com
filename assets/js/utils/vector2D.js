@@ -1,11 +1,11 @@
-define('vector2D', ['pixi'], function (PIXI) {
+define('utils/vector2D', ['pixi'], function (PIXI) {
   function Vector2D(length, angle) {
     this.length = length;
     this.angle = angle;
   }
 
   Vector2D.createFromCartesian = function (x, y) {
-    let length = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    let length = Math.hypot(x, y);
 
     return new Vector2D(length, Math.asin(x / length));
   }
